@@ -693,12 +693,14 @@ def infer(tyc,expn):
             elif op == "+:":
                 # create a new entry
                 alpha = freshTyVar()
-                unify(tau2, ["Product", ["String"], alpha])  # where alpha is the type given for the new entry
                 unify(tau1, ["Table", alpha])
+                unify(tau2, ["Product", ["String"], alpha])  # where alpha is the type given for the new entry
                 return tau1
 
             elif op == "-:":
                 # remove an entry
+                alpha = freshTyVar()
+                unify(tau1, ["Table", alpha])
                 unify(tau2, ["String"])
                 return tau1
 
