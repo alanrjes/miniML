@@ -1,0 +1,43 @@
+INFER(G, e)
+  case e of
+  empty =>
+    t := VAR(FRESH-TYPE-VAR())
+    return TABLE(t)
+  e1 +: e2 =>
+    t1 := INFER(G, e1)
+    t2 := INFER(G, e2)
+    a := VAR(FRESH-TYPE-VAR())
+    UNIFY(t2, PRODUCT(STRING, a))
+    UNIFY(t1, TABLE(a))
+    return t1
+  e1 -: e2 =>
+    t1 := INFER(G, e1)
+    t2 := INFER(G, e2)
+    a := VAR(FRESH-TYPE-VAR())
+    UNIFY(t1, TABLE(a))
+    UNIFY(t2, STRING)
+    return t1
+  e1 . e2 =>
+    t1 := INFER(G, e1)
+    t2 := INFER(G, e2)
+    a := VAR(FRESH-TYPE-VAR())
+    UNIFY(t1, TABLE(a))
+    UNIFY(t2, STRING)
+    return a
+  e1 ? e2 =>
+    t1 := INFER(G, e1)
+    t2 := INFER(G, e2)
+    a := VAR(FRESH-TYPE-VAR())
+    UNIFY(t1, TABLE(a))
+    UNIFY(t2, STRING)
+    return BOOL
+  size e =>
+    t := INFER(G, e)
+    a := VAR(FRESH-TYPE-VAR())
+    UNIFY(t, TABLE(a))
+    return INT
+  keys e =>
+    t := INFER(G, e)
+    a := VAR(FRESH-TYPE-VAR())
+    UNIFY(t, TABLE(a))
+    return LIST(STRING)
